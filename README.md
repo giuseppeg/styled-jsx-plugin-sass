@@ -32,6 +32,25 @@ Next, add `styled-jsx-plugin-sass` to the `styled-jsx`'s `plugins` in your babel
 }
 ```
 
+## Node-Sass Options
+
+A subset of [node-sass options](https://github.com/sass/node-sass#options) are supported, namely `precision` and `includePaths`.
+
+```json
+{
+  "plugins": [
+    [
+      "styled-jsx/babel",
+      {
+        "plugins": [
+          ["styled-jsx-plugin-sass", { "includePaths": ["./styles"], "precision": 2 }]
+        ]
+      }
+    ]
+  ]
+}
+```
+
 #### Notes
 
 `styled-jsx-plugin-sass` uses `styled-jsx`'s plugin system which is supported from version 2.
