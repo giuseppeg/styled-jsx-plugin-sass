@@ -1,10 +1,18 @@
 const assert = require('assert')
 const stripIndent = require('strip-indent')
-const plugin = require('./')
+const sinon = require('sinon')
+const proxyquire = require('proxyquire')
+const sass = require('node-sass')
 
 const cleanup = str => stripIndent(str).trim()
 
 describe('styled-jsx-plugin-sass', () => {
+  let plugin
+
+  before(() => {
+    plugin = require('./')
+  })
+
   it('applies plugins', () => {
     assert.equal(
       plugin('p { img { display: block} color: color(red a(90%)) }').trim(),
@@ -42,5 +50,39 @@ describe('styled-jsx-plugin-sass', () => {
           color: red; }
       `)
     )
+  })
+
+  describe('node-sass options', () => {
+    let spy
+
+    before(() => {
+      spy = sinon.spy(sass, 'renderSync');
+      plugin = proxyquire('./', {
+        'node-sass': {
+          renderSync: spy
+        }
+      })
+    })
+
+    it('allows "precision" to be set', () => {
+      plugin('p { color: red; }', {
+        precision: 2
+      })
+      sinon.assert.calledWithMatch(spy, { precision: 2 })
+    })
+
+    it('it allows "includePaths" to be set', () => {
+      plugin('p { color: red; }', {
+        includePaths: ['./foo']
+      })
+      sinon.assert.calledWithMatch(spy, { includePaths: ['./foo'] })
+    })
+
+    it('does not allow unsupported options', () => {
+      plugin('p { color: red; }', {
+        foo: 'bar'
+      })
+      sinon.assert.neverCalledWithMatch(spy, { foo: 'bar' })
+    })
   })
 })
