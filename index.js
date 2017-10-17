@@ -2,11 +2,11 @@ const sass = require('node-sass').renderSync
 
 module.exports = (css, settings) => {
   const cssWithPlaceholders = css
-    .replace(/\:\s*%%styled-jsx-expression-(\d+)%%/g, (_, id) =>
-      `: styled-jsx-expression-${id}()`
+    .replace(/\:\s*%%styled-jsx-(expression|placeholder)-(\d+)%%/g, (_, p, id) =>
+      `: styled-jsx-${p}-${id}()`
     )
-    .replace(/%%styled-jsx-expression-(\d+)%%/g, (_, id) =>
-      `/*%%styled-jsx-expression-${id}%%*/`
+    .replace(/%%styled-jsx-(expression|placeholder)-(\d+)%%/g, (_, p, id) =>
+      `/*%%styled-jsx-${p}-${id}%%*/`
     )
 
   const preprocessed = sass({
@@ -14,10 +14,10 @@ module.exports = (css, settings) => {
   }).css.toString()
 
   return preprocessed
-    .replace(/\:\s*styled-jsx-expression-(\d+)\(\)/g, (_, id) =>
-      `: %%styled-jsx-expression-${id}%%`
+    .replace(/\:\s*styled-jsx-(expression|placeholder)-(\d+)\(\)/g, (_, p, id) =>
+      `: %%styled-jsx-${p}-${id}%%`
     )
-    .replace(/\/\*%%styled-jsx-expression-(\d+)%%\*\//g, (_, id) =>
-      `%%styled-jsx-expression-${id}%%`
+    .replace(/\/\*%%styled-jsx-(expression|placeholder)-(\d+)%%\*\//g, (_, p, id) =>
+      `%%styled-jsx-${p}-${id}%%`
     )
 }
