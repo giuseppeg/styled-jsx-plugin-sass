@@ -1,4 +1,4 @@
-const sass = require('node-sass').renderSync
+const sass = require('node-sass')
 
 module.exports = (css, settings) => {
   const cssWithPlaceholders = css
@@ -9,9 +9,9 @@ module.exports = (css, settings) => {
       `/*%%styled-jsx-placeholder-${id}%%*/`
     )
 
-  const preprocessed = sass({
+  const preprocessed = sass.renderSync(Object.assign({
     data: cssWithPlaceholders
-  }).css.toString()
+  }, settings.sassOptions)).css.toString()
 
   return preprocessed
     .replace(/\:\s*styled-jsx-placeholder-(\d+)\(\)/g, (_, id) =>
