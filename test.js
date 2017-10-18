@@ -20,7 +20,7 @@ describe('styled-jsx-plugin-sass', () => {
 
   it('works with placeholders', () => {
     assert.equal(
-      plugin('p { img { display: block } color: %%styled-jsx-placeholder-0%%; } %%styled-jsx-placeholder-1%%').trim(),
+      plugin('p { img { display: block } color: %%styled-jsx-placeholder-0%%; } %%styled-jsx-placeholder-1%%', {}).trim(),
       cleanup(`
         p {
           color: %%styled-jsx-placeholder-0%%; }
