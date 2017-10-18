@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "mocha": "^4.0.1",
+    "node-sass": "^4.5.3",
     "strip-indent": "^2.0.0"
   }
 }
