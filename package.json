@@ -26,8 +26,6 @@
   },
   "devDependencies": {
     "mocha": "^4.0.1",
-    "proxyquire": "^1.8.0",
-    "sinon": "^4.0.1",
     "strip-indent": "^2.0.0"
   }
 }
