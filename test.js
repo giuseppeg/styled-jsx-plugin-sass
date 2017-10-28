@@ -2,7 +2,7 @@ const assert = require('assert')
 const stripIndent = require('strip-indent')
 const plugin = require('./')
 
-const cleanup = str => stripIndent(str).trim()
+const cleanup = str => stripIndent(str).trim();
 
 describe('styled-jsx-plugin-sass', () => {
 
@@ -16,7 +16,7 @@ describe('styled-jsx-plugin-sass', () => {
             display: block; }
       `)
     )
-  })
+  });
 
   it('works with placeholders', () => {
     assert.equal(
@@ -30,7 +30,19 @@ describe('styled-jsx-plugin-sass', () => {
         %%styled-jsx-placeholder-1%%
       `)
     )
-  })
+  });
+
+  it('works with selectors and media queries placeholders', () => {
+    assert.equal(
+      plugin('p { display: block; %%styled-jsx-placeholder-0%% { color: red; } }', {}).trim(),
+      cleanup(`
+        p {
+          display: block; }
+          p styled-jsx-placeholder-0() {
+            color: red; }
+      `)
+    )
+  });
 
   it('works with @import', () => {
     assert.equal(
@@ -43,7 +55,7 @@ describe('styled-jsx-plugin-sass', () => {
           color: red; }
       `)
     )
-  })
+  });
 
   it('applies sassOptions', () => {
     assert.equal(
@@ -58,4 +70,4 @@ describe('styled-jsx-plugin-sass', () => {
       `)
     )
   });
-})
+});
