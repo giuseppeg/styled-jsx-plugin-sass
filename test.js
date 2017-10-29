@@ -34,12 +34,13 @@ describe('styled-jsx-plugin-sass', () => {
 
   it('works with selectors and media queries placeholders', () => {
     assert.equal(
-      plugin('p { display: block; %%styled-jsx-placeholder-0%% { color: red; } }', {}).trim(),
+      plugin('p { display: block; @media %%styled-jsx-placeholder-0%% { color: red; } }', {}).trim(),
       cleanup(`
         p {
           display: block; }
-          p %%styled-jsx-placeholder-0%% {
-            color: red; }
+          @media %%styled-jsx-placeholder-0%% {
+            p {
+              color: red; } }
       `)
     )
   });
