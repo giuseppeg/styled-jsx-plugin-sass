@@ -6,7 +6,7 @@ module.exports = (css, settings) => {
       `: styled-jsx-placeholder-${id}()`
     )
     .replace(/%%styled-jsx-placeholder-(\d+)%%\s*{/g, (_, id) =>
-      `styled-jsx-placeholder-${id}() {`
+      `styled-jsx-placeholder-${id} {`
     )
     .replace(/%%styled-jsx-placeholder-(\d+)%%/g, (_, id) =>
       `/*%%styled-jsx-placeholder-${id}%%*/`
@@ -19,6 +19,9 @@ module.exports = (css, settings) => {
   return preprocessed
     .replace(/:\s*styled-jsx-placeholder-(\d+)\(\)/g, (_, id) =>
       `: %%styled-jsx-placeholder-${id}%%`
+    )
+    .replace(/styled-jsx-placeholder-(\d+)\s*{/g, (_, id) =>
+      `%%styled-jsx-placeholder-${id}%% {`
     )
     .replace(/\/\*%%styled-jsx-placeholder-(\d+)%%\*\//g, (_, id) =>
       `%%styled-jsx-placeholder-${id}%%`

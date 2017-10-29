@@ -38,7 +38,7 @@ describe('styled-jsx-plugin-sass', () => {
       cleanup(`
         p {
           display: block; }
-          p styled-jsx-placeholder-0() {
+          p %%styled-jsx-placeholder-0%% {
             color: red; }
       `)
     )
