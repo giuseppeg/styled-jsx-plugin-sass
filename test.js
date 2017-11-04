@@ -18,6 +18,16 @@ describe('styled-jsx-plugin-sass', () => {
     )
   });
 
+  it("does not add space after variable placeholder", () => {
+    assert.equal(
+      plugin('p { img { color: %%styled-jsx-placeholder-0%%px; } }', {}).trim(),
+      cleanup(`
+        p img {
+          color: %%styled-jsx-placeholder-0%%px; }
+      `)
+    )
+  });
+
   it('works with placeholders', () => {
     assert.equal(
       plugin('p { img { display: block } color: %%styled-jsx-placeholder-0%%; } %%styled-jsx-placeholder-1%%', {}).trim(),
