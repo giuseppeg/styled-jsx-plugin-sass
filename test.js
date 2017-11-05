@@ -2,7 +2,7 @@ const assert = require('assert')
 const stripIndent = require('strip-indent')
 const plugin = require('./')
 
-const cleanup = str => stripIndent(str).trim();
+const cleanup = str => stripIndent(str).trim()
 
 describe('styled-jsx-plugin-sass', () => {
 
@@ -16,7 +16,7 @@ describe('styled-jsx-plugin-sass', () => {
             display: block; }
       `)
     )
-  });
+  })
 
   it("does not add space after variable placeholder", () => {
     assert.equal(
@@ -26,7 +26,7 @@ describe('styled-jsx-plugin-sass', () => {
           color: %%styled-jsx-placeholder-0%%px; }
       `)
     )
-  });
+  })
 
   it('works with placeholders', () => {
     assert.equal(
@@ -40,20 +40,34 @@ describe('styled-jsx-plugin-sass', () => {
         %%styled-jsx-placeholder-1%%
       `)
     )
-  });
+  })
 
   it('works with media queries placeholders', () => {
     assert.equal(
-      plugin('p { display: block; @media %%styled-jsx-placeholder-0%% { color: red; } }', {}).trim(),
+      plugin(`
+        p { 
+          display: block; 
+          @media %%styled-jsx-placeholder-0%% { color: red; } 
+          @media (min-width: %%styled-jsx-placeholder-0%%px) { color: blue; }
+          @media (min-width: %%styled-jsx-placeholder-0%%) { color: yellow; }
+        }`, 
+        {}
+      ).trim(),
       cleanup(`
         p {
           display: block; }
           @media %%styled-jsx-placeholder-0%% {
             p {
               color: red; } }
+          @media (min-width: %%styled-jsx-placeholder-0%%px) {
+            p {
+              color: blue; } }
+          @media (min-width: %%styled-jsx-placeholder-0%%) {
+            p {
+              color: yellow; } }  
       `)
     )
-  });
+  })
 
   it('works with selectors placeholders', () => {
     assert.equal(
@@ -65,7 +79,7 @@ describe('styled-jsx-plugin-sass', () => {
             color: red; }
       `)
     )
-  });
+  })
 
   it('works with @import', () => {
     assert.equal(
@@ -78,7 +92,7 @@ describe('styled-jsx-plugin-sass', () => {
           color: red; }
       `)
     )
-  });
+  })
 
   it('applies sassOptions', () => {
     assert.equal(
@@ -92,5 +106,5 @@ describe('styled-jsx-plugin-sass', () => {
           padding: 0.3em; }
       `)
     )
-  });
-});
+  })
+})

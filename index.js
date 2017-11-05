@@ -1,4 +1,4 @@
-const sass = require('node-sass');
+const sass = require('node-sass')
 
 module.exports = (css, settings) => {
   const cssWithPlaceholders = css
