@@ -18,6 +18,16 @@ describe('styled-jsx-plugin-sass', () => {
     )
   })
 
+  it("does not add space after variable placeholder", () => {
+    assert.equal(
+      plugin('p { img { color: %%styled-jsx-placeholder-0%%px; } }', {}).trim(),
+      cleanup(`
+        p img {
+          color: %%styled-jsx-placeholder-0%%px; }
+      `)
+    )
+  })
+
   it('works with placeholders', () => {
     assert.equal(
       plugin('p { img { display: block } color: %%styled-jsx-placeholder-0%%; } %%styled-jsx-placeholder-1%%', {}).trim(),
@@ -28,6 +38,45 @@ describe('styled-jsx-plugin-sass', () => {
             display: block; }
 
         %%styled-jsx-placeholder-1%%
+      `)
+    )
+  })
+
+  it('works with media queries placeholders', () => {
+    assert.equal(
+      plugin(`
+        p { 
+          display: block; 
+          @media %%styled-jsx-placeholder-0%% { color: red; } 
+          @media (min-width: %%styled-jsx-placeholder-0%%px) { color: blue; }
+          @media (min-width: %%styled-jsx-placeholder-0%%) { color: yellow; }
+        }`, 
+        {}
+      ).trim(),
+      cleanup(`
+        p {
+          display: block; }
+          @media %%styled-jsx-placeholder-0%% {
+            p {
+              color: red; } }
+          @media (min-width: %%styled-jsx-placeholder-0%%px) {
+            p {
+              color: blue; } }
+          @media (min-width: %%styled-jsx-placeholder-0%%) {
+            p {
+              color: yellow; } }  
+      `)
+    )
+  })
+
+  it('works with selectors placeholders', () => {
+    assert.equal(
+      plugin('p { display: block; %%styled-jsx-placeholder-0%% { color: red; } }', {}).trim(),
+      cleanup(`
+        p {
+          display: block; }
+          p %%styled-jsx-placeholder-0%% {
+            color: red; }
       `)
     )
   })
@@ -57,5 +106,5 @@ describe('styled-jsx-plugin-sass', () => {
           padding: 0.3em; }
       `)
     )
-  });
+  })
 })
