@@ -1,6 +1,6 @@
 {
   "name": "styled-jsx-plugin-sass",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Plugin to add Sass support to styled-jsx",
   "main": "index.js",
   "scripts": {
