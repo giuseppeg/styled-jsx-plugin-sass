@@ -2,11 +2,8 @@ const sass = require('node-sass')
 
 module.exports = (css, settings) => {
   const cssWithPlaceholders = css
-    .replace(/:\s*%%styled-jsx-placeholder-(\d+)%%/g, (_, id) =>
-      `: styled-jsx-placeholder-${id}`
-    )
-    .replace(/%%styled-jsx-placeholder-(\d+)%%\s*{/g, (_, id) =>
-      `styled-jsx-placeholder-${id} {`
+    .replace(/%%styled-jsx-placeholder-(\d+)%%(\w*\s*[);{])/g, (_, id, p1) =>
+      `styled-jsx-placeholder-${id}-${p1}`
     )
     .replace(/%%styled-jsx-placeholder-(\d+)%%/g, (_, id) =>
       `/*%%styled-jsx-placeholder-${id}%%*/`
@@ -17,11 +14,8 @@ module.exports = (css, settings) => {
   }, settings.sassOptions)).css.toString()
 
   return preprocessed
-    .replace(/:\s*styled-jsx-placeholder-(\d+)/g, (_, id) =>
-      `: %%styled-jsx-placeholder-${id}%%`
-    )
-    .replace(/styled-jsx-placeholder-(\d+)\s*{/g, (_, id) =>
-      `%%styled-jsx-placeholder-${id}%% {`
+    .replace(/styled-jsx-placeholder-(\d+)-(\w*\s*[);{])/g, (_, id, p1) =>
+      `%%styled-jsx-placeholder-${id}%%${p1}`
     )
     .replace(/\/\*%%styled-jsx-placeholder-(\d+)%%\*\//g, (_, id) =>
       `%%styled-jsx-placeholder-${id}%%`
