@@ -28,6 +28,16 @@ describe('styled-jsx-plugin-sass', () => {
     )
   })
 
+  it("works with placeholders in css functions", () => {
+    assert.equal(
+      plugin('div { grid-template-columns: repeat(%%styled-jsx-placeholder-0%%, calc(%%styled-jsx-placeholder-1%%% - %%styled-jsx-placeholder-2%%px)); }', {}).trim(),
+      cleanup(`
+        div {
+          grid-template-columns: repeat(%%styled-jsx-placeholder-0%%, calc(%%styled-jsx-placeholder-1%%% - %%styled-jsx-placeholder-2%%px)); }
+      `)
+    )
+  })
+
   it('works with placeholders', () => {
     assert.equal(
       plugin(`
