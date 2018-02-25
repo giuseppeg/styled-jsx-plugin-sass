@@ -1,4 +1,6 @@
 const assert = require('assert')
+const path = require('path')
+const fs = require('fs')
 const stripIndent = require('strip-indent')
 const plugin = require('./')
 
@@ -51,7 +53,7 @@ describe('styled-jsx-plugin-sass', () => {
           border-bottom: 1px solid %%styled-jsx-placeholder-0%%; }
           p img {
             display: block; }
-        
+
         %%styled-jsx-placeholder-1%%
       `)
     )
@@ -60,9 +62,9 @@ describe('styled-jsx-plugin-sass', () => {
   it('works with media queries placeholders', () => {
     assert.equal(
       plugin(`
-        p { 
-          display: block; 
-          @media %%styled-jsx-placeholder-0%% { color: red; } 
+        p {
+          display: block;
+          @media %%styled-jsx-placeholder-0%% { color: red; }
           @media (min-width: %%styled-jsx-placeholder-0%%px) { color: blue; }
           @media (min-width: %%styled-jsx-placeholder-0%%) { color: yellow; }
         }`,
@@ -79,7 +81,7 @@ describe('styled-jsx-plugin-sass', () => {
               color: blue; } }
           @media (min-width: %%styled-jsx-placeholder-0%%) {
             p {
-              color: yellow; } }  
+              color: yellow; } }
       `)
     )
   })
@@ -98,7 +100,7 @@ describe('styled-jsx-plugin-sass', () => {
 
   it('works with @import', () => {
     assert.equal(
-      plugin('@import "fixture"; p { color: red }', {}).trim(),
+      plugin('@import "fixtures/fixture"; p { color: red }', {}).trim(),
       cleanup(`
         div {
           color: red; }
@@ -108,6 +110,22 @@ describe('styled-jsx-plugin-sass', () => {
       `)
     )
   })
+
+  it('works with relative @import', () => {
+    const filename = 'fixtures/entry.scss'
+    const file = fs.readFileSync(path.join(__dirname, filename))
+
+    assert.equal(
+      plugin(file.toString(), { babel: { filename } }).trim(),
+      cleanup(`
+        * {
+          font-family: "Comic Sans MS" !important; }
+
+        p {
+          color: red; }
+      `)
+    )
+  });
 
   it('applies sassOptions', () => {
     assert.equal(
