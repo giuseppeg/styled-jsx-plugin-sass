@@ -10,14 +10,6 @@ module.exports = (css, settings) => {
       `/*%%styled-jsx-placeholder-${id}%%*/`
     )
 
-  // Add the directory containing the current file to includePaths to enable relative
-  // imports, only works when the filename is provided
-  const includePaths = settings.sassOptions && settings.sassOptions.includePaths || [];
-  
-  if (settings.babel && settings.babel.filename) {
-    includePaths.push(path.dirname(settings.babel.filename));
-  }
-
   // Prepend option data to cssWithPlaceholders
   const optionData = settings.sassOptions && settings.sassOptions.data || "";
   const data = optionData + "\n" + cssWithPlaceholders;
@@ -26,8 +18,7 @@ module.exports = (css, settings) => {
     Object.assign(
       {},
       settings.sassOptions,
-      { data },
-      { includePaths }
+      { data }
     )).css.toString()
 
   return preprocessed
