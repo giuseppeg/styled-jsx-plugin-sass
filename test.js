@@ -122,9 +122,6 @@ describe('styled-jsx-plugin-sass', () => {
 
     assert.equal(
       plugin(file.toString(), {
-        sassOptions: {
-          includePaths: [path.join(__dirname, 'fixtures')]
-        },
         babel: { filename }
       }).trim(),
       cleanup(`
