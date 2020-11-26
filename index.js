@@ -14,9 +14,11 @@ module.exports = (css, settings) => {
   const optionData = settings.sassOptions && settings.sassOptions.data || "";
   const data = optionData + "\n" + cssWithPlaceholders;
 
+  const file = settings.babel && settings.babel.filename;
+
   const preprocessed = sass.renderSync(
     Object.assign(
-      {},
+      {file},
       settings.sassOptions,
       { data }
     )).css.toString()
