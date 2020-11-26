@@ -30,6 +30,16 @@ describe('styled-jsx-plugin-sass', () => {
     )
   })
 
+  it("works with percent placeholders", () => {
+    assert.equal(
+      plugin('p { width: %%styled-jsx-placeholder-0%%%; }', {}).trim(),
+      cleanup(`
+        p {
+          width: %%styled-jsx-placeholder-0%%%; }
+      `)
+    )
+  })
+
   it("works with placeholders in css functions", () => {
     assert.equal(
       plugin('div { grid-template-columns: repeat(%%styled-jsx-placeholder-0%%, calc(%%styled-jsx-placeholder-1%%% - %%styled-jsx-placeholder-2%%px)); }', {}).trim(),
